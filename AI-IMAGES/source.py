@@ -17,6 +17,33 @@ def generate_random_image(payload):
     }
     response = requests.post(url, json={"prompt": payload}, headers=headers)
     print(response.text)
+    print(response.json())
 
 
-print(generate_random_image("Blackbeard on the Queen Anne's Revenge"))
+def list_inference_jobs(model_id):
+    configure()
+    headers = {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "authorization": f"Bearer {os.getenv('api_key')}"
+    }
+    url = f"https://api.tryleap.ai/api/v1/images/models/{model_id}/inferences"
+    response = requests.get(url, headers=headers)
+    print(response.text)
+
+
+def delete_image(model_id):
+    configure()
+    headers = {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "authorization": f"Bearer {os.getenv('api_key')}"
+    }
+    url = f"https://api.tryleap.ai/api/v1/images/models/{model_id}"
+    response = requests.delete(url, headers=headers)
+    print(response.text)
+
+
+print(delete_image("8b1b897c-d66d-45a6-b8d7-8e32421d02cf"))
+# print(delete_image("8b1b897c-d66d-45a6-b8d7-8e32421d02cf",
+#                    "e86a1605-32a8-48bc-a092-c36a89d31513"))
